@@ -4,8 +4,8 @@ resource "aws_security_group" "main" {
   vpc_id      = var.vpc_id
 
   ingress {
-    from_port   = "80"
-    to_port     = "80"
+    from_port   = var.port
+    to_port     = var.port
     protocol    = "tcp"
     cidr_blocks = var.sg_subnet_cidr
   }
@@ -36,4 +36,23 @@ resource "aws_lb" "main" {
   security_groups    = [aws_security_group.main.id]
   subnets            = var.subnets
   tags               = merge({ Name = "${var.name}-${var.env}-lb" }, var.tags)
+}
+
+resource "aws_lb_listener" "main" {
+#  count             = var.name == "public" ? 1 : 0
+  load_balancer_arn = aws_lb.main.arn
+  port              = var.port
+  protocol          = "HTTP"
+#  ssl_policy        = "ELBSecurityPolicy-2016-08"
+#  certificate_arn   = "arn:aws:acm:us-east-1:739561048503:certificate/f5a87677-8328-4370-9bad-81c18d400f65"
+
+  default_action {
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Default Error"
+      status_code  = "500"
+    }
+  }
 }
