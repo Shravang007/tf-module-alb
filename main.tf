@@ -38,3 +38,6 @@ resource "aws_lb" "main" {
   tags               = merge({ Name = "${var.name}-${var.env}-lb" }, var.tags)
 }
 
+
+
+
