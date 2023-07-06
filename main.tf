@@ -38,18 +38,18 @@ resource "aws_lb" "main" {
   tags               = merge({ Name = "${var.name}-${var.env}-lb" }, var.tags)
 }
 
-resource "aws_lb_listener" "main" {
-  load_balancer_arn = aws_lb.main.arn
-  port              = "80"
-  protocol          = "HTTP"
-
-  default_action {
-    type = "fixed-response"
-
-    fixed_response {
-      content_type   = "text/plain"
-      message_body   = "default error"
-      status_code    = "500"
-    }
-  }
-}
+#resource "aws_lb_listener" "main" {
+#  load_balancer_arn = aws_lb.main.arn
+#  port              = "80"
+#  protocol          = "HTTP"
+#
+#  default_action {
+#    type = "fixed-response"
+#
+#    fixed_response {
+#      content_type   = "text/plain"
+#      message_body   = "default error"
+#      status_code    = "500"
+#    }
+#  }
+#}
