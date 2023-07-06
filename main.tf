@@ -10,13 +10,6 @@ resource "aws_security_group" "main" {
     cidr_blocks = var.sg_subnet_cidr
   }
 
-  #  ingress {
-  #    from_port   = 443
-  #    to_port     = 443
-  #    protocol    = "tcp"
-  #    cidr_blocks = var.sg_subnet_cidr
-  #  }
-
   egress {
     from_port   = 0
     to_port     = 0
@@ -39,12 +32,10 @@ resource "aws_lb" "main" {
 }
 
 resource "aws_lb_listener" "main" {
-#  count             = var.name == "public" ? 1 : 0
   load_balancer_arn = aws_lb.main.arn
   port              = var.port
   protocol          = "HTTP"
-#  ssl_policy        = "ELBSecurityPolicy-2016-08"
-#  certificate_arn   = "arn:aws:acm:us-east-1:739561048503:certificate/f5a87677-8328-4370-9bad-81c18d400f65"
+
 
   default_action {
     type = "fixed-response"
