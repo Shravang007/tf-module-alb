@@ -38,30 +38,29 @@ resource "aws_lb" "main" {
   tags               = merge({ Name = "${var.name}-${var.env}-lb" }, var.tags)
 }
 
-#resource "aws_lb_listener" "http" {
-#  load_balancer_arn = aws_lb.main.arn
-#  port              = "80"
-#  protocol          = "HTTP"
-#
-#  default_action {
-#    type = "redirect"
-#
-#    redirect {
-#      port        = "443"
-#      protocol    = "HTTPS"
-#      status_code = "HTTP_301"
-#    }
-#  }
-#}
+resource "aws_lb_listener" "http" {
+  load_balancer_arn = aws_lb.main.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
 
 
 resource "aws_lb_listener" "main" {
   load_balancer_arn = aws_lb.main.arn
   port              = 443
-  protocol          = "HTTP"
-#  protocol          = "HTTPS"
-#  ssl_policy        = "ELBSecurityPolicy-2016-08"
-#  certificate_arn   = "arn:aws:acm:us-east-1:739561048503:certificate/f5a87677-8328-4370-9bad-81c18d400f65"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = "arn:aws:acm:us-east-1:752442278108:certificate/f98a9c89-ec37-42a9-86bd-524163567e45"
 
   default_action {
     type = "fixed-response"
